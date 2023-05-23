@@ -1,45 +1,18 @@
 import React from 'react';
 import './AlcoholIntake.css';
 import { PieChart, Pie, Legend, Tooltip, Cell } from "recharts";
-
-const RADIAN = Math.PI / 180;
+import { renderCustomizedLabel } from '../helpers';
 
 const data02 = [
   { name: "дней приема алкоголя", value: 3, color: '#8884d8' },
   { name: "дней без приема алкоголя", value: 4, color: '#82ca9d' },
 ];
 
-const renderCustomizedLabel = ({
-  cx,
-  cy,
-  midAngle,
-  innerRadius,
-  outerRadius,
-  percent,
-  index
-}: any) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-  return (
-    <text
-      x={x}
-      y={y}
-      fill="white"
-      dominantBaseline="central"
-      textAnchor={x > cx ? "start" : "end"}
-    >
-      {`${(percent * 100).toFixed(0)}%`}
-    </text>
-  );
-};
-
 /**
  * число дней с приемом алкоголя за неделю (абсолютное значение)
  * @returns 
  */
-const AlcoholIntake = () => {
+const AlcoholIntake: React.FC = () => {
   return(
     <>
       <h3>число дней с приемом алкоголя за неделю (абсолютное значение)</h3>
