@@ -10,15 +10,6 @@ import {
 } from 'recharts';
 import './DurationOfDaytimeSleep.css';
 
-
-type BarType = {
-  name: string;
-  key: string;
-  color: string;
-  onClick?: (data: any, index: number) => void;
-};
-
-
 const data: Array<{
   date: string,
   durationDaySleep: number
@@ -49,8 +40,7 @@ const data: Array<{
  * длительность дневного сна 
  * @returns 
  */
-const DurationOfDaytimeSleep: 
-  React.FC = () => {
+const DurationOfDaytimeSleep: React.FC = () => {
   return(
     <>
       <h3 className='subtitle'>Длительность дневного сна</h3>

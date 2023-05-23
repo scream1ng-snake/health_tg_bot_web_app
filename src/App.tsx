@@ -6,9 +6,10 @@ function App() {
   
   return (
     <div className="App">
-      {/* <Charts.TimeInBed />
+      {/* 
       <Charts.SleepQuality />
       <Charts.SleepEfficiency /> */}
+      <Charts.TimeInBed />
       <Charts.TakingSleepingPills />
       <Charts.AlcoholIntake />
       <Charts.PhysicalActivity />
