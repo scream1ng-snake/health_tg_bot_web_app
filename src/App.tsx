@@ -13,8 +13,9 @@ function App() {
       <Charts.SleepQuality />
       <Charts.AlcoholIntake />
       <Charts.SleepEfficiency />
-      <Charts.PhysicalActivity />
+      
       <Charts.TakingSleepingPills /> */}
+      <Charts.PhysicalActivity />
       <Charts.DurationOfDaytimeSleep/>
       {/* <Charts.DurationOfFallingAsleep />
       <Charts.TheNumberOfNightAwakenings />
