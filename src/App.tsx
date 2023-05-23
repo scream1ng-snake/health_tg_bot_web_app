@@ -10,13 +10,14 @@ function App() {
       <Charts.SleepQuality />
       <Charts.SleepEfficiency /> */}
       <Charts.TimeInBed />
-      <Charts.TakingSleepingPills />
       <Charts.AlcoholIntake />
       <Charts.PhysicalActivity />
+      <Charts.TakingSleepingPills />
       <Charts.DurationOfDaytimeSleep/>
       <Charts.DurationOfFallingAsleep />
-      {/* 
       <Charts.TheNumberOfNightAwakenings />
+      {/* 
+      
       <Charts.TimeSpentInBedAfterWakingUp />
       <Charts.TheTotalDurationOfNightAwakenings />
       <Charts.DynamicsOfSleepDurationAndStayingInBed /> */}
