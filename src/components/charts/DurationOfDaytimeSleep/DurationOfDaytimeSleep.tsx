@@ -34,6 +34,10 @@ const data: Array<{
     date: '15.06.2022',
     durationDaySleep: 30,
   },
+  {
+    date: 'средняя',
+    durationDaySleep: (60 + 40 + 70 + 100 + 30) / 5,
+  },
 ]
 
 /**
