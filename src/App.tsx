@@ -11,10 +11,9 @@ function App() {
     <div className="App">
       {/* <Charts.TimeInBed />
       <Charts.SleepQuality />
-      <Charts.AlcoholIntake />
       <Charts.SleepEfficiency />
-      
       <Charts.TakingSleepingPills /> */}
+      <Charts.AlcoholIntake />
       <Charts.PhysicalActivity />
       <Charts.DurationOfDaytimeSleep/>
       {/* <Charts.DurationOfFallingAsleep />

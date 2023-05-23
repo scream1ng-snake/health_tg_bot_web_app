@@ -35,6 +35,10 @@ const renderCustomizedLabel = ({
   );
 };
 
+/**
+ * Физическая нагрузка за неделю
+ * @returns 
+ */
 const PhysicalActivity: React.FC = () => {
   return (
     <>
