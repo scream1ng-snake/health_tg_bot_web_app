@@ -2,17 +2,14 @@ import React from 'react';
 import './App.css';
 import Charts from './components/charts';
 
-type DaytimeSleep = unknown;
-const daytimeSleepData: Array<DaytimeSleep> = []
-
 function App() {
   
   return (
     <div className="App">
       {/* <Charts.TimeInBed />
       <Charts.SleepQuality />
-      <Charts.SleepEfficiency />
-      <Charts.TakingSleepingPills /> */}
+      <Charts.SleepEfficiency /> */}
+      <Charts.TakingSleepingPills />
       <Charts.AlcoholIntake />
       <Charts.PhysicalActivity />
       <Charts.DurationOfDaytimeSleep/>
