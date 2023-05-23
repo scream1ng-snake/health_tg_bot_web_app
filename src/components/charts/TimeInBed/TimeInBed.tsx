@@ -27,6 +27,10 @@ const data: Array<{
     date: '15.06.2022',
     hoursInBed: 0,
   },
+  {
+    date: 'средняя',
+    hoursInBed: (0 + 6 + 4 + 7 + 10) / 5,
+  },
 ]
 
 /**
@@ -35,7 +39,7 @@ const data: Array<{
  * средняя продолжительность за неделю) в часах
  * @returns 
  */
-const TimeInBed = () => {
+const TimeInBed: React.FC = () => {
   return(
     <>
       <h3>Время нахождения в постели</h3>
