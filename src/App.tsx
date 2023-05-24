@@ -9,20 +9,16 @@ function App() {
       {/* 
       <Charts.SleepQuality />
       <Charts.SleepEfficiency /> */}
-      <Charts.TimeInBed />
-      <Charts.AlcoholIntake />
+      <Charts.DurationOfDaytimeSleep />
       <Charts.PhysicalActivity />
+      <Charts.AlcoholIntake />
       <Charts.TakingSleepingPills />
-      <Charts.DurationOfDaytimeSleep/>
+      <Charts.TimeInBed />
       <Charts.DurationOfFallingAsleep />
       <Charts.TheNumberOfNightAwakenings />
       <Charts.TheTotalDurationOfNightAwakenings />
       <Charts.TimeSpentInBedAfterWakingUp />
-      {/* 
-      
-      
-      
-      <Charts.DynamicsOfSleepDurationAndStayingInBed /> */}
+      <Charts.DynamicsOfSleepDurationAndStayingInBed />
     </div>
   );
 }
