@@ -57,7 +57,7 @@ const SleepQuality: React.FC = () => {
         <Legend />
         <Line 
           strokeWidth={2}
-          name='Время в постели, мин.'
+          name='Качество сна'
           dataKey="sleepQuantiti" 
           stroke="#4A7EBB"
         />
