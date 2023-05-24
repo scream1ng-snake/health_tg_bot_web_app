@@ -16,10 +16,11 @@ function App() {
       <Charts.DurationOfDaytimeSleep/>
       <Charts.DurationOfFallingAsleep />
       <Charts.TheNumberOfNightAwakenings />
+      <Charts.TheTotalDurationOfNightAwakenings />
       {/* 
       
       <Charts.TimeSpentInBedAfterWakingUp />
-      <Charts.TheTotalDurationOfNightAwakenings />
+      
       <Charts.DynamicsOfSleepDurationAndStayingInBed /> */}
     </div>
   );
