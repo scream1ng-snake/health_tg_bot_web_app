@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="App">
       {/* 
-      <Charts.SleepQuality />
+      
       <Charts.SleepEfficiency /> */}
       <Charts.DurationOfDaytimeSleep />
       <Charts.PhysicalActivity />
@@ -19,6 +19,7 @@ function App() {
       <Charts.TheTotalDurationOfNightAwakenings />
       <Charts.TimeSpentInBedAfterWakingUp />
       <Charts.DynamicsOfSleepDurationAndStayingInBed />
+      <Charts.SleepQuality />
     </div>
   );
 }
