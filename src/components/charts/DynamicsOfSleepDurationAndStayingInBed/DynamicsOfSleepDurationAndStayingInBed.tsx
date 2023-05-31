@@ -8,7 +8,8 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  LabelList
+  LabelList,
+  ResponsiveContainer
 } from "recharts";
 
 
@@ -52,41 +53,37 @@ const data = [
  * @returns 
  */
 const DynamicsOfSleepDurationAndStayingInBed: React.FC = () => {
-  return(
-    <>
+  const layout = {
+    width: '80%',
+    height: 200
+  }
+  return (
+    <div className='responsiveChart'>
       <h3>динамика длительности сна и времени, проведенного в постели</h3>
-      <LineChart
-        width={500}
-        height={300}
-        data={data}
-        margin={{
-          top: 20,
-          right: 30,
-          left: 20,
-          bottom: 10
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" height={60} tick={<CustomizedAxisTick />} />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Line 
-          strokeWidth={2}
-          name='Время в постели, мин.'
-          dataKey="timeInBedMinutes" 
-          stroke="#BE4B48"
-        >
-          <LabelList content={<CustomizedLabel />} />
-        </Line>
-        <Line 
-          strokeWidth={2}
-          name='Время сна, мин.'
-          dataKey="timeSleepingMinutes" 
-          stroke="#4A7EBB" 
-        />
-      </LineChart>
-    </>
+      <ResponsiveContainer {...layout}>
+        <LineChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="date" height={60} tick={<CustomizedAxisTick />} />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line
+            strokeWidth={2}
+            name='Время в постели, мин.'
+            dataKey="timeInBedMinutes"
+            stroke="#BE4B48"
+          >
+            <LabelList content={<CustomizedLabel />} />
+          </Line>
+          <Line
+            strokeWidth={2}
+            name='Время сна, мин.'
+            dataKey="timeSleepingMinutes"
+            stroke="#4A7EBB"
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   )
 }
 

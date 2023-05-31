@@ -6,7 +6,8 @@ import {
   Legend, 
   Tooltip, 
   XAxis, 
-  YAxis 
+  YAxis, 
+  ResponsiveContainer
 } from 'recharts';
 import './DurationOfDaytimeSleep.css';
 
@@ -45,28 +46,24 @@ const data: Array<{
  * @returns 
  */
 const DurationOfDaytimeSleep: React.FC = () => {
+  const layout = { 
+    width: '80%',
+    height: 200
+  }
   return(
-    <>
+    <div className='responsiveChart'>
       <h3 className='subtitle'>Длительность дневного сна</h3>
-      <BarChart
-        width={500}
-        height={300}
-        data={data}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
-        <YAxis dataKey='durationDaySleep'/>
-        <Tooltip />
-        <Legend />
-        <Bar name='Длительность дневного сна' dataKey="durationDaySleep" fill="#4F81BD" />
-      </BarChart>
-    </>
+      <ResponsiveContainer {...layout}>
+        <BarChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="date" />
+          <YAxis dataKey='durationDaySleep'/>
+          <Tooltip />
+          <Legend />
+          <Bar name='Длительность дневного сна' dataKey="durationDaySleep" fill="#4F81BD" />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   )
 };
 
