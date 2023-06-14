@@ -4,10 +4,11 @@ import { DoctorPage, PatientPage } from './components/pages';
 import useTelegram from './hooks/useTelegram';
 
 function App() {
-  const isDoctor = true;
+  const isDoctor = true; // todo убрать, тут нет никаких докторов
   return (
     <div className="App">
       <IsTelegramApp>
+        <Bar />
         {isDoctor
           ? <DoctorPage />
           : <PatientPage />
@@ -23,17 +24,16 @@ const IsTelegramApp: React.FC<{
   children: React.ReactNode
 }> = (props) => {
 
-   const { queryId = true, user = true } = useTelegram();
-   // const { queryId, user } = useTelegram(); todo
+  const { isInTelegram } = useTelegram();
 
   const text = `
     Данные аккаунта Telegram не были получены. 
     Возможно приложение запущено не через Telegram
   `
-  return(
+  return (
     <>
-      {!user || !queryId
-        ? <ErrorPage text={text} />
+      {!isInTelegram()
+        ? props.children //<ErrorPage text={text} />
         : props.children
       }
     </>
@@ -42,11 +42,16 @@ const IsTelegramApp: React.FC<{
 
 
 const ErrorPage: React.FC<{ text: string }> = (props) => {
-  return(
+  return (
     <div style={{ textAlign: 'center' }}>
       <h1>Ошибка!!!</h1>
       <hr />
       <p>{props.text}</p>
     </div>
   )
+}
+
+const Bar: React.FC = () => {
+  const { username } = useTelegram();
+  return <h3>{`Результаты пользователя: '${username}'`}</h3>
 }

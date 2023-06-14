@@ -25,12 +25,17 @@ export default function useTelegram() {
     secondary_bg_color: tg.themeParams.secondary_bg_color,
   }
 
+  const isInTelegram = () => Boolean(tg?.initDataUnsafe?.user?.id)
 
   return {
     tg, 
     colors,
     closeApp, 
+    isInTelegram, 
     user: tg.initDataUnsafe?.user, 
+    username: tg.initDataUnsafe?.user?.username as string, 
+    user_id: tg.initDataUnsafe?.user?.id as string, 
+    damir_user_id: '1884374502', 
     queryId: tg.initDataUnsafe?.query_id, 
   }
 }
