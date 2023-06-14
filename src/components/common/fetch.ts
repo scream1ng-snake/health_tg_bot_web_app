@@ -12,14 +12,11 @@ export const http = {
     const { damir_user_id } = useTelegram();
     const response = await fetch(BOT_URL, {
       method: 'POST',
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       headers: {
-        AccessControlAllowOrigin:'*',
-        ContentType: 'application/json',
-        Accept: "application/json",
-        AcceptEncoding: "gzip, deflate, br",
-        Connection: "keep-alive"
+        "Content-Type": 'application/json',
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
 
