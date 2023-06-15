@@ -34,7 +34,6 @@ const DurationOfDaytimeSleep: React.FC = () => {
   const isNotEnought = !data.length;
 
   React.useEffect(() => {
-    console.log('useeefeefetete')
     http.post('question_1')
       .then(LastWeek)
       .then(prepareDate)

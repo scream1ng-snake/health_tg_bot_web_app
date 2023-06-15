@@ -20,8 +20,7 @@ const AlcoholIntake: React.FC = () => {
   // const isNotEnought = !data.length;
 
   React.useEffect(() => {
-    http.post('question_3')
-      .then(console.log)
+    http.post('question_3') // todo
   }, [])
 
   const data02 = [

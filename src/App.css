@@ -12,6 +12,7 @@
 h3 {
   margin-top: 2rem;
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 @media screen and (min-width: 300px) {
