@@ -34,7 +34,7 @@ export default function useTelegram() {
     isInTelegram, 
     user: tg.initDataUnsafe?.user, 
     username: tg.initDataUnsafe?.user?.username as string, 
-    user_id: tg.initDataUnsafe?.user?.id as string, 
+    user_id: tg.initDataUnsafe?.user?.id as string ?? '5780004797', 
     queryId: tg.initDataUnsafe?.query_id, 
   }
 }

@@ -22,12 +22,9 @@ export const WithAverage = (arr: answer[]): answer[] => (
 
 /** Данные за последнюю неделю */
 export const LastWeek = (arr: Array<answer>) =>
-  arr.filter((answer) =>
-    moment(answer.answer_text)
-      .isAfter(moment()
-        .subtract(7, 'days')
-        .toISOString())
-  )
+  arr.length >= 7
+    ? arr.filter((answer) => moment(answer.answer_text).isAfter(moment().subtract(7, 'days').toISOString()))
+    : arr
 
 
 /** последняя неделя до сегодняшнего дня ISO str array */
