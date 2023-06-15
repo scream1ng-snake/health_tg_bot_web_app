@@ -2,7 +2,7 @@ import React from 'react';
 import './PhysicalActivity.css';
 import { PieChart, Pie, Legend, Tooltip, Cell, ResponsiveContainer } from "recharts";
 import { renderCustomizedLabel } from '../helpers';
-import { http, LastWeek, LastWeekUntilToday, NotEnoughtData, prepareDate } from '../../common';
+import { http, LastWeek, NotEnoughtData, prepareDate } from '../../common';
 
 
 const layout = {

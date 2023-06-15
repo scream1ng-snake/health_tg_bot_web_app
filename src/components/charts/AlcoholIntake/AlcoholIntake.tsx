@@ -14,9 +14,10 @@ const layout = {
  * @returns 
  */
 const AlcoholIntake: React.FC = () => {
-  const [data, setData] = React.useState<answer[]>([]);
+  // const [data, setData] = React.useState<answer[]>([]);
+  // const [data] = React.useState<answer[]>([]);
   /** Недостаточно данных */
-  const isNotEnought = !data.length;
+  // const isNotEnought = !data.length;
 
   React.useEffect(() => {
     http.post('question_3')
