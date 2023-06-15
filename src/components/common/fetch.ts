@@ -4,7 +4,7 @@ import { BOT_URL } from "./config";
 export const http = {
   get: () => { },
   post: async function PostData(question: string) {
-    const { damir_user_id } = useTelegram();
+    const { user_id } = useTelegram();
     const response = await fetch(BOT_URL, {
       method: 'POST',
       headers: {
@@ -16,7 +16,7 @@ export const http = {
       },
 
       body: JSON.stringify({
-        userid: damir_user_id,
+        userid: user_id,
         botstate: question
       })
     });
