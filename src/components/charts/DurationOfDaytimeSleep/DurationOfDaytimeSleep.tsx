@@ -33,12 +33,6 @@ const DurationOfDaytimeSleep: React.FC = () => {
   /** Недостаточно данных */
   const isNotEnought = !data.length;
 
-  const arras = (arr: answer[]) => {
-    console.log('arr')
-    console.log(arr)
-    return arr;
-  }
-
   React.useEffect(() => {
     console.log('useeefeefetete')
     http.post('question_1')
