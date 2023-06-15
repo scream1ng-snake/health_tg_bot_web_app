@@ -39,7 +39,7 @@ export const LastWeekUntilToday = () =>
 export const fakeData = (): answer[] =>
   Array.from(Array(7)).map(() => ({
     answer_text: 0, // getRandomNum(12, 2),
-    cdate: getToday()
+    cdate: moment(getToday()).utc().format('YYYY-MM-DD')
   }))
 
 /** Сегодняшний день ISOstr */

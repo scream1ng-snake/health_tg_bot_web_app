@@ -13,12 +13,12 @@ import TimeSpentInBedAfterWakingUp from './TimeSpentInBedAfterWakingUp/TimeSpent
 
 
 const Charts = {
-  DurationOfDaytimeSleep: DurationOfDaytimeSleep,
-  PhysicalActivity: PhysicalActivity,
-  AlcoholIntake: AlcoholIntake,
-  TakingSleepingPills: TakingSleepingPills,
-  TimeInBed: TimeInBed,
-  DurationOfFallingAsleep: DurationOfFallingAsleep,
+  DurationOfDaytimeSleep: DurationOfDaytimeSleep, // 1
+  PhysicalActivity: PhysicalActivity, // 2
+  AlcoholIntake: AlcoholIntake, // 4
+  TakingSleepingPills: TakingSleepingPills, // 5
+  TimeInBed: TimeInBed, // 6
+  DurationOfFallingAsleep: DurationOfFallingAsleep, // 8
   TheNumberOfNightAwakenings: TheNumberOfNightAwakenings,
   TheTotalDurationOfNightAwakenings: TheTotalDurationOfNightAwakenings,
   TimeSpentInBedAfterWakingUp: TimeSpentInBedAfterWakingUp,

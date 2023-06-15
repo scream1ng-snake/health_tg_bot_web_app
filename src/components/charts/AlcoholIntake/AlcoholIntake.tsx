@@ -2,21 +2,39 @@ import React from 'react';
 import './AlcoholIntake.css';
 import { PieChart, Pie, Legend, Tooltip, Cell, ResponsiveContainer } from "recharts";
 import { renderCustomizedLabel } from '../helpers';
+import { http } from '../../common';
 
-const data02 = [
-  { name: "дней приема алкоголя", value: 3, color: '#8884d8' },
-  { name: "дней без приема алкоголя", value: 4, color: '#82ca9d' },
-];
+const layout = {
+  width: '80%',
+  height: 300
+}
 
 /**
  * число дней с приемом алкоголя за неделю (абсолютное значение)
  * @returns 
  */
 const AlcoholIntake: React.FC = () => {
-  const layout = {
-    width: '80%',
-    height: 300
-  }
+  const [data, setData] = React.useState<answer[]>([]);
+  /** Недостаточно данных */
+  const isNotEnought = !data.length;
+
+  React.useEffect(() => {
+    http.post('question_3')
+      .then(console.log)
+  }, [])
+
+  const data02 = [
+    { 
+      name: "дней приема алкоголя", 
+      value: 3, 
+      color: '#8884d8' 
+    },
+    { 
+      name: "дней без приема алкоголя", 
+      value: 4, 
+      color: '#82ca9d' 
+    },
+  ];
   return (
     <div className='responsiveChart'>
       <h3>число дней с приемом алкоголя за неделю (абсолютное значение)</h3>
