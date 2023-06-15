@@ -1,11 +1,6 @@
 import useTelegram from "../../hooks/useTelegram";
 import { BOT_URL } from "./config";
 
-type answer = {
-  cdate: string,
-  answer_text: number
-}
-
 export const http = {
   get: () => { },
   post: async function PostData(question: string) {
