@@ -9,62 +9,51 @@ import {
   YAxis,
   ResponsiveContainer
 } from 'recharts';
-import { http } from '../../common';
+import { 
+  fakeData, 
+  http, 
+  LastWeek, 
+  NotEnoughtData, 
+  prepareDate, 
+  WithAverage 
+} from '../../common';
 import './DurationOfDaytimeSleep.css';
 
-const data: Array<{
-  date: string,
-  durationDaySleep: number
-}> = [
-    {
-      date: '11.06.2022',
-      durationDaySleep: 60,
-    },
-    {
-      date: '12.06.2022',
-      durationDaySleep: 40,
-    },
-    {
-      date: '13.06.2022',
-      durationDaySleep: 70,
-    },
-    {
-      date: '14.06.2022',
-      durationDaySleep: 100,
-    },
-    {
-      date: '15.06.2022',
-      durationDaySleep: 30,
-    },
-    {
-      date: 'средняя',
-      durationDaySleep: (60 + 40 + 70 + 100 + 30) / 5,
-    },
-  ]
+const layout = {
+  width: '80%',
+  height: 200
+}
 
 /**
  * длительность дневного сна 
  * @returns 
  */
 const DurationOfDaytimeSleep: React.FC = () => {
-  const layout = {
-    width: '80%',
-    height: 200
-  }
+  const [data, setData] = React.useState<answer[]>([]);
+  /** Недостаточно данных */
+  const isNotEnought = !data.length;
+
+
   React.useEffect(() => {
-    http.post('question_1').then(console.log).catch(console.log)
+    http.post('question_1')
+      .then(LastWeek)
+      .then(WithAverage)
+      .then(prepareDate)
+      .then(setData)
+      .catch(console.log)
   }, [])
   return (
     <div className='responsiveChart'>
       <h3 className='subtitle'>Длительность дневного сна</h3>
+      {isNotEnought ? <NotEnoughtData /> : null}
       <ResponsiveContainer {...layout}>
-        <BarChart data={data}>
+        <BarChart data={isNotEnought ? fakeData() : data}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis dataKey='durationDaySleep' />
+          <XAxis dataKey="cdate" />
+          <YAxis dataKey='answer_text' />
           <Tooltip />
           <Legend />
-          <Bar name='Длительность дневного сна' dataKey="durationDaySleep" fill="#4F81BD" />
+          <Bar name='Длительность дневного сна' dataKey="answer_text" fill="#4F81BD" />
         </BarChart>
       </ResponsiveContainer>
     </div>
