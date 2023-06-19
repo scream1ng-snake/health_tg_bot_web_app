@@ -1,7 +1,7 @@
 .App {
   overflow: hidden;
   margin: 0 auto;
-  background: var(--tg-theme-secondary-bg-color);
+  background: var(--tg-theme-bg-color);
   color: var(--tg-theme-text-color);
 }
 
@@ -17,7 +17,7 @@ h3 {
 
 @media screen and (min-width: 300px) {
   .App { 
-    width: 100vw;
+    width: 97vw;
   }
 }
 @media screen and (min-width: 576px) {
