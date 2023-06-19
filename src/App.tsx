@@ -35,7 +35,7 @@ const IsTelegramApp: React.FC<{
   return (
     <>
       {!isInTelegram()
-        ? <ErrorPage text={text} />
+        ? props.children //<ErrorPage text={text} />
         : props.children
       }
     </>
