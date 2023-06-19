@@ -26,16 +26,16 @@ const IsTelegramApp: React.FC<{
 
   const { isInTelegram } = useTelegram();
 
-  const text = `
-    Данные аккаунта Telegram не были получены. 
-    Возможно приложение запущено не через Telegram \n
-    **Для открытия приложения необходимо использовать inline_keyboard,
-    вместо пользовательской клавиатуры**
-  `
+  // const text = `
+  //   Данные аккаунта Telegram не были получены. 
+  //   Возможно приложение запущено не через Telegram \n
+  //   **Для открытия приложения необходимо использовать inline_keyboard,
+  //   вместо пользовательской клавиатуры**
+  // `
   return (
     <>
       {!isInTelegram()
-        ? <ErrorPage text={text} />
+        ? props.children //<ErrorPage text={text} />
         : props.children
       }
     </>
@@ -43,15 +43,15 @@ const IsTelegramApp: React.FC<{
 }
 
 
-const ErrorPage: React.FC<{ text: string }> = (props) => {
-  return (
-    <div style={{ textAlign: 'center' }}>
-      <h1>Ошибка!!!</h1>
-      <hr />
-      <p>{props.text}</p>
-    </div>
-  )
-}
+// const ErrorPage: React.FC<{ text: string }> = (props) => {
+//   return (
+//     <div style={{ textAlign: 'center' }}>
+//       <h1>Ошибка!!!</h1>
+//       <hr />
+//       <p>{props.text}</p>
+//     </div>
+//   )
+// }
 
 const Bar: React.FC = () => {
   const { username } = useTelegram();
