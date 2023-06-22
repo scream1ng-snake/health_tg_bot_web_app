@@ -4,7 +4,7 @@ import { DoctorPage, PatientPage } from './components/pages';
 import useTelegram from './hooks/useTelegram';
 
 function App() {
-  const isDoctor = true; // todo убрать, тут нет никаких докторов
+  const isDoctor = true; // todo убрать, тут нет никаких докторов UPD: теперб есть 
   return (
     <div className="App">
       <IsTelegramApp>
