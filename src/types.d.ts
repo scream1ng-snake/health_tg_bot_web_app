@@ -5,3 +5,12 @@ type answer = {
   cdate: string,
   answer_text: number
 }
+
+const LoadStates = {
+  INITIAL: "INITIAL",
+  LOADING: "LOADING",
+  COMPLETED: "COMPLETED",
+  FAILED: "FAILED",
+} as const;
+
+type LoadStatesType = typeof LoadStates[keyof typeof LoadStates];
