@@ -52,3 +52,12 @@ h3 {
   align-items: center;
   position: relative;
 }
+
+.inputBar {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.inputBar > * {
+  margin-right: 1.5rem;
+}

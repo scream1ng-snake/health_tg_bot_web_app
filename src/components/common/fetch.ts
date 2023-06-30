@@ -1,10 +1,13 @@
-import useTelegram from "../../hooks/useTelegram";
 import { BOT_URL } from "./config";
 
 export const http = {
   get: () => { },
-  post: async function PostData(question: string) {
-    const { user_id } = useTelegram();
+  post: async function PostData(
+    userid: string, 
+    question: string, 
+    startdate: string, 
+    enddate: string
+  ) {
     const response = await fetch(BOT_URL, {
       method: 'POST',
       headers: {
@@ -16,8 +19,10 @@ export const http = {
       },
 
       body: JSON.stringify({
-        userid: user_id,
-        botstate: question
+        userid,
+        botstate: question,
+        startdate: startdate.replace(/[-_]/g,""),
+        enddate: enddate.replace(/[-_]/g,"")
       })
     });
     return await response.json() as Array<answer>;

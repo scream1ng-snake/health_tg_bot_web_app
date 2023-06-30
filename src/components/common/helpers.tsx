@@ -48,3 +48,5 @@ export const getRandomNum = (
 ) => (
   Math.floor(Math.random() * (maximum - minimum + 1)) + minimum
 )
+
+export const isDoctorPage = () => window.location.hash === '#doctor'

@@ -9,14 +9,17 @@ import {
   YAxis,
   ResponsiveContainer
 } from 'recharts';
-import { 
-  fakeData, 
-  http, 
-  LastWeek, 
-  NotEnoughtData, 
-  prepareDate, 
-  WithAverage 
+import { useLoading, useStore } from '../../../hooks';
+import {
+  FailedRequest,
+  fakeData,
+  http,
+  isDoctorPage,
+  NotEnoughtData,
+  prepareDate,
+  WithAverage
 } from '../../common';
+import { LoaderChart } from '../../common/Loader/Loader';
 import './DurationOfDaytimeSleep.css';
 
 const layout = {
@@ -29,24 +32,46 @@ const layout = {
  * @returns 
  */
 const DurationOfDaytimeSleep: React.FC = () => {
-  const [data, setData] = React.useState<answer[]>([]);
+  const [data, setData] = React.useState<answer[]>([]); 
+
+  const { currentUser, selectedUser, startDate, endDate } = useStore()
+
+  const { isFailed, isLoad, onStart, onFailed, onSussess } = useLoading();
+
   /** Недостаточно данных */
   const isNotEnought = !data.length;
 
-  React.useEffect(() => {
-    http.post('question_1')
-      .then(LastWeek)
+  const fetchData = (userId: string) => {
+    onStart();
+    http.post(userId, 'question_1', startDate, endDate)
       .then(prepareDate)
       .then(WithAverage)
       .then(setData)
-      .catch(console.log)
+      .then(onSussess)
+      .catch(onFailed)
+  }
+
+  React.useEffect(() => {
+    if (isDoctorPage()) {
+      if (selectedUser) fetchData(selectedUser)
+    } else {
+      if (currentUser) fetchData(currentUser)
+    }
+    // eslint-disable-next-line
   }, [])
   return (
     <div className='responsiveChart'>
       <h3 className='subtitle'>Длительность дневного сна</h3>
-      {isNotEnought ? <NotEnoughtData /> : null}
+      {isFailed
+        ? <FailedRequest />
+        : isLoad
+          ? <LoaderChart isLoad={isLoad} />
+          : isNotEnought
+            ? <NotEnoughtData />
+            : null
+      }
       <ResponsiveContainer {...layout}>
-        <BarChart data={isNotEnought ? fakeData() : data}>
+        <BarChart data={isFailed || (isLoad || isNotEnought) ? fakeData() : data}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="cdate" />
           <YAxis dataKey='answer_text' />

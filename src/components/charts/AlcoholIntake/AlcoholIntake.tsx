@@ -2,7 +2,7 @@ import React from 'react';
 import './AlcoholIntake.css';
 import { PieChart, Pie, Legend, Tooltip, Cell, ResponsiveContainer } from "recharts";
 import { renderCustomizedLabel } from '../helpers';
-import { http } from '../../common';
+//import { http } from '../../common';
 
 const layout = {
   width: '80%',
@@ -19,9 +19,9 @@ const AlcoholIntake: React.FC = () => {
   /** Недостаточно данных */
   // const isNotEnought = !data.length;
 
-  React.useEffect(() => {
-    http.post('question_3') // todo
-  }, [])
+  // React.useEffect(() => {
+  //   http.post('question_3') // todo
+  // }, [])
 
   const data02 = [
     { 

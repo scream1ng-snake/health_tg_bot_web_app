@@ -1,6 +1,8 @@
 import React from 'react';
+import { useStore } from '../../../hooks';
 // import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, ZAxis, Line, LineChart } from 'recharts';
 import Charts from '../../charts';
+import { DateInput, Select } from '../../common';
 import './DoctorPage.css';
 
 // тестовый трехмерный чарт
@@ -101,22 +103,68 @@ import './DoctorPage.css';
 
 
 export const DoctorPage: React.FC = () => {
+  const {
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+    users,
+    setUsers,
+    selectedUser,
+    setSelectedUser
+  } = useStore()
+
+  React.useEffect(() => {
+    setUsers([{ name: 'assassa', id: 'asasasaas' }, { name: 'qqqqqq', id: 'qweqweqweq' }]) // todo
+    // eslint-disable-next-line
+  }, [])
   return (
     <div>
-      {/* <Testtest />
-      <br /> */}
-      <Charts.DurationOfDaytimeSleep />
-      <Charts.PhysicalActivity />
-      <Charts.AlcoholIntake />
-      <Charts.TakingSleepingPills />
-      <Charts.TimeInBed />
-      <Charts.DurationOfFallingAsleep />
-      <Charts.TheNumberOfNightAwakenings />
-      <Charts.TheTotalDurationOfNightAwakenings />
-      <Charts.TimeSpentInBedAfterWakingUp />
-      <Charts.DynamicsOfSleepDurationAndStayingInBed />
-      <Charts.SleepQuality />
-      <Charts.SleepEfficiency />
+      <h3 className='hint'>
+        {selectedUser?.length
+          ? `Результаты пользователя: '${selectedUser}'`
+          : 'Выберите пользователя'
+        }
+      </h3>
+
+      <div className='inputBar'>
+        <Select
+          data={users}
+          selected={selectedUser ?? ''}
+          onSelect={(name: string) => setSelectedUser(name)}
+          placeholder='Выберите пользователя'
+          name='select_user'
+          label='Выберите пользователя'
+        />
+        <DateInput
+          value={startDate}
+          onChange={(date) => setStartDate(date)}
+          label='Начальная дата'
+          name='startDate'
+        />
+        <DateInput
+          value={endDate}
+          onChange={(date) => setEndDate(date)}
+          label='Конечная дата'
+          name='endDate'
+        />
+      </div>
+      {selectedUser &&
+        <>
+          <Charts.DurationOfDaytimeSleep />
+          <Charts.PhysicalActivity />
+          <Charts.AlcoholIntake />
+          <Charts.TakingSleepingPills />
+          <Charts.TimeInBed />
+          <Charts.DurationOfFallingAsleep />
+          <Charts.TheNumberOfNightAwakenings />
+          <Charts.TheTotalDurationOfNightAwakenings />
+          <Charts.TimeSpentInBedAfterWakingUp />
+          <Charts.DynamicsOfSleepDurationAndStayingInBed />
+          <Charts.SleepQuality />
+          <Charts.SleepEfficiency />
+        </>
+      }
     </div>
   )
 }

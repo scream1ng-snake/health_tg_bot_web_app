@@ -2,7 +2,8 @@ import React from 'react';
 import './PhysicalActivity.css';
 import { PieChart, Pie, Legend, Tooltip, Cell, ResponsiveContainer } from "recharts";
 import { renderCustomizedLabel } from '../helpers';
-import { http, LastWeek, NotEnoughtData, prepareDate } from '../../common';
+import { FailedRequest, http, isDoctorPage, LoaderChart, NotEnoughtData, prepareDate } from '../../common';
+import { useLoading, useStore } from '../../../hooks';
 
 
 const layout = {
@@ -17,17 +18,14 @@ const layout = {
  * @returns 
  */
 const PhysicalActivity: React.FC = () => {
-  const [data, setData] = React.useState<answer[]>([]);
+  const [data, setData] = React.useState<answer[]>([]); 
+
+  const { currentUser, selectedUser, startDate, endDate } = useStore()
+
+  const { isFailed, isLoad, onStart, onFailed, onSussess } = useLoading();
+
   /** Недостаточно данных */
   const isNotEnought = !data.length;
-
-  React.useEffect(() => {
-    http.post('question_2')
-      .then(LastWeek)
-      .then(prepareDate)
-      .then(setData)
-      .catch(console.log)
-  }, [])
 
   const physicalActivity = data.reduce((acc, cur) => (
     acc + Number(cur.answer_text)
@@ -45,10 +43,34 @@ const PhysicalActivity: React.FC = () => {
       color: '#FF8042' 
     },
   ];
+  const fetchData = (userId: string) => {
+    onStart();
+    http.post(userId, 'question_2', startDate, endDate)
+      .then(prepareDate)
+      .then(setData)
+      .then(onSussess)
+      .catch(onFailed)
+  }
+
+  React.useEffect(() => {
+    if (isDoctorPage()) {
+      if (selectedUser) fetchData(selectedUser)
+    } else {
+      if (currentUser) fetchData(currentUser)
+    }
+    // eslint-disable-next-line
+  }, [])
   return (
     <div className='responsiveChart'>
       <h3>Физическая нагрузка за неделю</h3>
-      {isNotEnought ? <NotEnoughtData /> : null}
+      {isFailed
+        ? <FailedRequest />
+        : isLoad
+          ? <LoaderChart isLoad={isLoad} />
+          : isNotEnought
+            ? <NotEnoughtData />
+            : null
+      }
       <ResponsiveContainer {...layout}>
         <PieChart height={400}>
           <Pie

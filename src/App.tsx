@@ -2,17 +2,25 @@ import React from 'react';
 import './App.css';
 import { DoctorPage, PatientPage } from './components/pages';
 import useTelegram from './hooks/useTelegram';
+import { StoreProvider } from './store/StoreProvider';
 
 function App() {
   const isDoctor = true; // todo убрать, тут нет никаких докторов UPD: теперб есть 
+  React.useEffect(() => {
+    isDoctor
+      ? window.location.hash = 'doctor'
+      : window.location.hash = 'patient'
+  }, [isDoctor])
+
   return (
     <div className="App">
       <IsTelegramApp>
-        <Bar />
-        {isDoctor
-          ? <DoctorPage />
-          : <PatientPage />
-        }
+        <StoreProvider>
+          {isDoctor
+            ? <DoctorPage />
+            : <PatientPage />
+          }
+        </StoreProvider>
       </IsTelegramApp>
     </div>
   );
@@ -53,7 +61,3 @@ const IsTelegramApp: React.FC<{
 //   )
 // }
 
-const Bar: React.FC = () => {
-  const { username } = useTelegram();
-  return <h3 className='hint'>{`Результаты пользователя: '${username}'`}</h3>
-}
