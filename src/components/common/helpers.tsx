@@ -19,6 +19,17 @@ export const WithAverage = (arr: answer[]): answer[] => (
       }
     ]) : ([])
 )
+/** Посчитать среднее арифметическое */
+export const WithAverageInt = (arr: { answer_text: number, cdate: string }[]): { answer_text: number, cdate: string }[] => (
+  arr.length
+    ? ([
+      ...arr,
+      {
+        answer_text: Math.ceil(arr.reduce((acc, cur) => acc + Number(cur.answer_text), 0) / arr.length * 10) / 10,
+        cdate: 'Средняя'
+      }
+    ]) : ([])
+)
 
 /** Данные за последнюю неделю */
 export const LastWeek = (arr: Array<answer>) =>
