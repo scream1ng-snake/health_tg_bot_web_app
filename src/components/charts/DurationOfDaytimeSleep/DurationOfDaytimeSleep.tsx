@@ -58,7 +58,7 @@ const DurationOfDaytimeSleep: React.FC = () => {
       if (currentUser) fetchData(currentUser)
     }
     // eslint-disable-next-line
-  }, [])
+  }, [startDate, endDate, currentUser, selectedUser])
   return (
     <div className='responsiveChart'>
       <h3 className='subtitle'>Длительность дневного сна</h3>
