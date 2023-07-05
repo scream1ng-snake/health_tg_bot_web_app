@@ -13,17 +13,40 @@ import TimeSpentInBedAfterWakingUp from './TimeSpentInBedAfterWakingUp/TimeSpent
 
 
 const Charts = {
-  DurationOfDaytimeSleep: DurationOfDaytimeSleep, // 1
-  PhysicalActivity: PhysicalActivity, // 2
-  AlcoholIntake: AlcoholIntake, // 4
-  TakingSleepingPills: TakingSleepingPills, // 5
-  TimeInBed: TimeInBed, // 6
-  DurationOfFallingAsleep: DurationOfFallingAsleep, // 8
+  // question_1 - 1. Спали ли Вы вчера днем? (Длительность в минутах)
+  DurationOfDaytimeSleep: DurationOfDaytimeSleep, // done
+
+  // question_2 - Занимались ли Вы вчера спортом? (Длительность в минутах)
+  PhysicalActivity: PhysicalActivity, // done
+
+  // question_4 - Принимали ли Вы вчера алкоголь? (да/нет)
+  AlcoholIntake: AlcoholIntake, // done
+
+  // question_5 - Принимали ли Вы перед сном снотворное? (да/нет)
+  TakingSleepingPills: TakingSleepingPills, // done
+
+  // question_6 question_12 время между ними
+  TimeInBed: TimeInBed, 
+
+  // question_8 - Сколько времени Вы потратили на то, чтобы уснуть? (Длительность в минутах)
+  DurationOfFallingAsleep: DurationOfFallingAsleep, 
+
+  // question_9 - Сколько раз Вы просыпались среди ночи, не считая утреннего пробуждения?
   TheNumberOfNightAwakenings: TheNumberOfNightAwakenings,
+
+  // question_10 - Сколько по ощущениям суммарно по времени составили Ваши ночные пробуждения? (Длительность в минутах)
   TheTotalDurationOfNightAwakenings: TheTotalDurationOfNightAwakenings,
-  TimeSpentInBedAfterWakingUp: TimeSpentInBedAfterWakingUp,
+
+  // question_11 & question_12 посчитать время между ними
+  TimeSpentInBedAfterWakingUp: TimeSpentInBedAfterWakingUp, 
+
+  // question_6 question_12 время между ними
   DynamicsOfSleepDurationAndStayingInBed: DynamicsOfSleepDurationAndStayingInBed,
-  SleepQuality: SleepQuality,
+
+  // question_14 - Оцените качество своего сна сегодня ночью? (от 1 до 5) ^(1|2|3|4|5)$
+  SleepQuality: SleepQuality, 
+
+  //
   SleepEfficiency: SleepEfficiency,
 }
 
