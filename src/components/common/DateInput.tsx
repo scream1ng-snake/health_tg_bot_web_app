@@ -71,7 +71,7 @@ export const Select: React.FC<{
       >
         <option value="">{placeholder}</option>
         {data.map((item) => 
-          <option value={item.name} key={item.id}>{item.name}</option>
+          <option value={item.id} key={item.id}>{item.name}</option>
         )}
       </select>
     </div>
