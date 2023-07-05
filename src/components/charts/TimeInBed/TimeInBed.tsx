@@ -1,8 +1,20 @@
 import moment from 'moment';
 import React from 'react';
-import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, ResponsiveContainer } from 'recharts';
+import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, ResponsiveContainer, Cell } from 'recharts';
 import { useLoading, useStore } from '../../../hooks';
-import { FailedRequest, findOneOrFindLast, http, isDoctorPage, LoaderChart, NotEnoughtData, prepareDate, strTimeToNum, validateHHMMstr, withoutDuplicates } from '../../common';
+import { 
+  FailedRequest, 
+  findOneOrFindLast, 
+  http, 
+  isDoctorPage, 
+  LoaderChart, 
+  NotEnoughtData, 
+  prepareDate, 
+  strTimeToNum, 
+  validateHHMMstr, 
+  WithAverageInt, 
+  withoutDuplicates 
+} from '../../common';
 import './TimeInBed.css';
 
 
@@ -79,13 +91,13 @@ const TimeInBed: React.FC = () => {
         // считаем разницу
         const goOutH = goOutItemExists.answer_text.split(':')[0]
         const goOutM = goOutItemExists.answer_text.split(':')[1]
-        
+
         const goIntoH = goIntoItem.answer_text.split(':')[0]
         const goIntoM = goIntoItem.answer_text.split(':')[1]
 
         // разница в минутках
         let differenceInMins = (Number(goOutH) * 60 + Number(goOutM)) - (Number(goIntoH) * 60 + Number(goIntoM));
-        if(differenceInMins < 0) differenceInMins = 0
+        if (differenceInMins < 0) differenceInMins = 0
         const differenceM = differenceInMins % 60;
         const differenceH = Math.floor(differenceInMins / 60);
         data.push({
@@ -95,7 +107,8 @@ const TimeInBed: React.FC = () => {
       }
     }
   })
-  data = prepareDate(data)
+  //@ts-ignore
+  data = WithAverageInt(strTimeToNum(prepareDate(data)))
 
   /** Недостаточно данных */
   const isNotEnought = !data.length;
@@ -112,13 +125,19 @@ const TimeInBed: React.FC = () => {
             : null
       }
       <ResponsiveContainer {...layout}>
-        <BarChart data={strTimeToNum(data)}>
+        <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="cdate" />
-          <YAxis dataKey='answer_text'/>
+          <YAxis dataKey='answer_text' />
           <Tooltip />
           <Legend />
-          <Bar name='Время нахождения в постели' dataKey="answer_text" fill="#4F81BD" />
+          <Bar name='Время нахождения в постели' dataKey="answer_text" fill="#4F81BD" >
+            {
+              data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.cdate === 'Средняя' ? '#4FBDA3' : '#4F81BD'} />
+              ))
+            }
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>
