@@ -26,16 +26,16 @@ const Charts = {
   TakingSleepingPills: TakingSleepingPills, // done
 
   // question_6 question_12 время между ними
-  TimeInBed: TimeInBed, 
+  TimeInBed: TimeInBed, // done
 
   // question_8 - Сколько времени Вы потратили на то, чтобы уснуть? (Длительность в минутах)
-  DurationOfFallingAsleep: DurationOfFallingAsleep, 
+  DurationOfFallingAsleep: DurationOfFallingAsleep, // done
 
   // question_9 - Сколько раз Вы просыпались среди ночи, не считая утреннего пробуждения?
-  TheNumberOfNightAwakenings: TheNumberOfNightAwakenings,
+  TheNumberOfNightAwakenings: TheNumberOfNightAwakenings, // done
 
   // question_10 - Сколько по ощущениям суммарно по времени составили Ваши ночные пробуждения? (Длительность в минутах)
-  TheTotalDurationOfNightAwakenings: TheTotalDurationOfNightAwakenings,
+  TheTotalDurationOfNightAwakenings: TheTotalDurationOfNightAwakenings, // done
 
   // question_11 & question_12 посчитать время между ними
   TimeSpentInBedAfterWakingUp: TimeSpentInBedAfterWakingUp, 
