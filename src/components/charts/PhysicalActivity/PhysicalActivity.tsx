@@ -59,7 +59,7 @@ const PhysicalActivity: React.FC = () => {
       if (currentUser) fetchData(currentUser)
     }
     // eslint-disable-next-line
-  }, [])
+  }, [selectedUser, startDate, endDate, currentUser])
   return (
     <div className='responsiveChart'>
       <h3>Физическая нагрузка за неделю</h3>
