@@ -6,35 +6,6 @@ import { FailedRequest, findOneOrFindLast, http, isDoctorPage, LoaderChart, NotE
 import './TimeInBed.css';
 
 
-const datas: Array<{
-  date: string,
-  hoursInBed: number
-}> = [
-    {
-      date: '11.06.2022',
-      hoursInBed: 6,
-    },
-    {
-      date: '12.06.2022',
-      hoursInBed: 4,
-    },
-    {
-      date: '13.06.2022',
-      hoursInBed: 7,
-    },
-    {
-      date: '14.06.2022',
-      hoursInBed: 10,
-    },
-    {
-      date: '15.06.2022',
-      hoursInBed: 0,
-    },
-    {
-      date: 'средняя',
-      hoursInBed: (0 + 6 + 4 + 7 + 10) / 5,
-    },
-  ]
 
 const layout = {
   width: '80%',
