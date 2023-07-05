@@ -14,7 +14,7 @@ export const WithAverage = (arr: answer[]): answer[] => (
     ? ([
       ...arr,
       {
-        answer_text: arr.reduce((acc, cur) => acc + Number(cur.answer_text), 0) / arr.length,
+        answer_text: String(arr.reduce((acc, cur) => acc + Number(cur.answer_text), 0) / arr.length),
         cdate: 'Средняя'
       }
     ]) : ([])
@@ -35,7 +35,7 @@ export const LastWeekUntilToday = () =>
 
 export const fakeData = (): answer[] =>
   Array.from(Array(7)).map(() => ({
-    answer_text: 0, // getRandomNum(12, 2),
+    answer_text: String(0), // String(getRandomNum(12, 2)),
     cdate: moment(getToday()).utc().format('YYYY-MM-DD')
   }))
 
@@ -50,3 +50,46 @@ export const getRandomNum = (
 )
 
 export const isDoctorPage = () => window.location.hash === '#doctor'
+
+export const validateHHMMstr = (str: string) =>
+  /^(?:\d|[0-1]\d|2[0-3]):(?:\d|[0-5]\d)$/.test(str)
+
+
+/** 
+ * Если в массиве нашелся один элемент, то вернуть его 
+ * Если в массиве нашлось много элементов, то вернуть последний
+ * Если не нашлось, null
+*/
+export function findOneOrFindLast(
+  data: answer[],
+  predicate: (item: answer) => boolean
+) {
+  const items = data.filter(predicate)
+  if (items.length === 1) return items[0];
+  if (items.length > 1) return items[items.length - 1];
+  if (!items.length) return null;
+  return null;
+}
+
+/**
+ * Удаляет дублирующиеся по времени записи 
+ * и оставляет только последнюю 
+ */
+export function withoutDuplicates(inputArray: answer[]) {
+  const outputArray = inputArray
+    .reduce((arr, item) => {
+      if (arr.length && arr.some((o) => moment(o.cdate).isSame(moment(item.cdate), 'day'))) return arr;
+      // if (arr.length && arr.some((o) => o.cdate == item.cdate)) return arr;
+      arr.push(item)
+      return arr;
+    }, [] as answer[])
+
+  return outputArray;
+}
+
+
+export const strTimeToNum = (array: answer[]) =>
+  array.map(({ cdate, answer_text }) => ({
+    cdate,
+    answer_text: Number(answer_text.replace(':', '.'))
+  }))

@@ -115,7 +115,7 @@ export const DoctorPage: React.FC = () => {
   } = useStore()
 
   React.useEffect(() => {
-    setUsers([{ name: 'assassa', id: 'asasasaas' }, { name: 'qqqqqq', id: 'qweqweqweq' }]) // todo
+    setUsers([{ name: 'me', id: '5780004797' }, { name: 'some guy', id: '1884374502' }]) // todo
     // eslint-disable-next-line
   }, [])
   return (
