@@ -7,7 +7,8 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-  ResponsiveContainer
+  ResponsiveContainer,
+  Cell
 } from 'recharts';
 import { useLoading, useStore } from '../../../hooks';
 import {
@@ -17,7 +18,8 @@ import {
   isDoctorPage,
   NotEnoughtData,
   prepareDate,
-  WithAverage
+  WithAverage,
+  withoutDuplicates
 } from '../../common';
 import { LoaderChart } from '../../common/Loader/Loader';
 import './DurationOfDaytimeSleep.css';
@@ -32,7 +34,7 @@ const layout = {
  * @returns 
  */
 const DurationOfDaytimeSleep: React.FC = () => {
-  const [data, setData] = React.useState<answer[]>([]); 
+  const [data, setData] = React.useState<answer[]>([]);
 
   const { currentUser, selectedUser, startDate, endDate } = useStore()
 
@@ -44,6 +46,7 @@ const DurationOfDaytimeSleep: React.FC = () => {
   const fetchData = (userId: string) => {
     onStart();
     http.post(userId, 'question_1', startDate, endDate)
+      .then(withoutDuplicates)
       .then(prepareDate)
       .then(WithAverage)
       .then(setData)
@@ -77,7 +80,13 @@ const DurationOfDaytimeSleep: React.FC = () => {
           <YAxis dataKey='answer_text' />
           <Tooltip />
           <Legend />
-          <Bar name='Длительность дневного сна' dataKey="answer_text" fill="#4F81BD" />
+          <Bar name='Длительность дневного сна' dataKey="answer_text" fill="#4F81BD" >
+            {
+              data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.cdate === 'Средняя' ? '#4FBDA3' : '#4F81BD'} />
+              ))
+            }
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>
