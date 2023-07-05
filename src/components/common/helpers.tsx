@@ -14,7 +14,7 @@ export const WithAverage = (arr: answer[]): answer[] => (
     ? ([
       ...arr,
       {
-        answer_text: String(arr.reduce((acc, cur) => acc + Number(cur.answer_text), 0) / arr.length),
+        answer_text: String(Math.ceil(arr.reduce((acc, cur) => acc + Number(cur.answer_text), 0) / arr.length * 10) / 10),
         cdate: 'Средняя'
       }
     ]) : ([])
