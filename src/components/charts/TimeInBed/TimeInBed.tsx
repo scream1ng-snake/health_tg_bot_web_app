@@ -96,7 +96,11 @@ const TimeInBed: React.FC = () => {
         const goIntoM = goIntoItem.answer_text.split(':')[1]
 
         // разница в минутках
-        let differenceInMins = (Number(goOutH) * 60 + Number(goOutM)) - (Number(goIntoH) * 60 + Number(goIntoM));
+        const оставшиесяВчерашниеМинутки = (24 * 60) - (Number(goIntoH) * 60 + Number(goIntoM));
+        const всеСегодняшниеМинутки = Number(goOutH) * 60 + Number(goOutM);
+
+        let differenceInMins = оставшиесяВчерашниеМинутки + всеСегодняшниеМинутки;
+
         if (differenceInMins < 0) differenceInMins = 0
         const differenceM = differenceInMins % 60;
         const differenceH = Math.floor(differenceInMins / 60);
