@@ -48,8 +48,11 @@ const Charts = {
   // question_14 - Оцените качество своего сна сегодня ночью? (от 1 до 5) ^(1|2|3|4|5)$
   SleepQuality: SleepQuality, // done
 
-  //
-  SleepEfficiency: SleepEfficiency,
+  // question_6 question_12 это время нахождения в кровати
+  // question_7 question_11 это время сна
+  // посчитать время сна и нахождения в постели 
+  // посчитать эффективность сна
+  SleepEfficiency: SleepEfficiency, // done
 }
 
 export default Charts;

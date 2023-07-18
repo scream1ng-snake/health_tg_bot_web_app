@@ -10,16 +10,13 @@ import {
   ResponsiveContainer,
   Cell
 } from 'recharts';
-import { useLoading, useStore } from '../../../hooks';
+import { useStore } from '../../../hooks';
 import {
   FailedRequest,
   fakeData,
-  http,
-  isDoctorPage,
   NotEnoughtData,
   prepareDate,
   WithAverage,
-  withoutDuplicates
 } from '../../common';
 import { LoaderChart } from '../../common/Loader/Loader';
 import './DurationOfDaytimeSleep.css';
@@ -34,34 +31,15 @@ const layout = {
  * @returns 
  */
 const DurationOfDaytimeSleep: React.FC = () => {
-  const [data, setData] = React.useState<answer[]>([]);
+  const { question_1_data, question_1_load } = useStore();
 
-  const { currentUser, selectedUser, startDate, endDate } = useStore()
+  const isLoad = question_1_load === 'LOADING';
+  const isFailed = question_1_load === 'FAILED';
 
-  const { isFailed, isLoad, onStart, onFailed, onSussess } = useLoading();
+  const data = WithAverage(prepareDate(question_1_data))
 
   /** Недостаточно данных */
   const isNotEnought = !data.length;
-
-  const fetchData = (userId: string) => {
-    onStart();
-    http.post(userId, 'question_1', startDate, endDate)
-      .then(withoutDuplicates)
-      .then(prepareDate)
-      .then(WithAverage)
-      .then(setData)
-      .then(onSussess)
-      .catch(onFailed)
-  }
-
-  React.useEffect(() => {
-    if (isDoctorPage()) {
-      if (selectedUser) fetchData(selectedUser)
-    } else {
-      if (currentUser) fetchData(currentUser)
-    }
-    // eslint-disable-next-line
-  }, [startDate, endDate, currentUser, selectedUser])
   return (
     <div className='responsiveChart'>
       <h3 className='subtitle'>Длительность дневного сна</h3>

@@ -2,8 +2,8 @@ import React from 'react';
 import './PhysicalActivity.css';
 import { PieChart, Pie, Legend, Tooltip, Cell, ResponsiveContainer } from "recharts";
 import { renderCustomizedLabel } from '../helpers';
-import { FailedRequest, http, isDoctorPage, LoaderChart, NotEnoughtData, prepareDate } from '../../common';
-import { useLoading, useStore } from '../../../hooks';
+import { FailedRequest, LoaderChart, NotEnoughtData, prepareDate } from '../../common';
+import { useStore } from '../../../hooks';
 
 
 const layout = {
@@ -18,11 +18,11 @@ const layout = {
  * @returns 
  */
 const PhysicalActivity: React.FC = () => {
-  const [data, setData] = React.useState<answer[]>([]); 
+  const { question_2_data, question_2_load } = useStore()
+  const isLoad = question_2_load === 'LOADING';
+  const isFailed = question_2_load === 'FAILED';
 
-  const { currentUser, selectedUser, startDate, endDate } = useStore()
-
-  const { isFailed, isLoad, onStart, onFailed, onSussess } = useLoading();
+  const data = prepareDate(question_2_data)
 
   /** Недостаточно данных */
   const isNotEnought = !data.length;
@@ -43,23 +43,6 @@ const PhysicalActivity: React.FC = () => {
       color: '#FF8042' 
     },
   ];
-  const fetchData = (userId: string) => {
-    onStart();
-    http.post(userId, 'question_2', startDate, endDate)
-      .then(prepareDate)
-      .then(setData)
-      .then(onSussess)
-      .catch(onFailed)
-  }
-
-  React.useEffect(() => {
-    if (isDoctorPage()) {
-      if (selectedUser) fetchData(selectedUser)
-    } else {
-      if (currentUser) fetchData(currentUser)
-    }
-    // eslint-disable-next-line
-  }, [selectedUser, startDate, endDate, currentUser])
   return (
     <div className='responsiveChart'>
       <h3>Физическая нагрузка за неделю</h3>

@@ -1,19 +1,16 @@
 import moment from 'moment';
 import React from 'react';
 import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, ResponsiveContainer, Cell } from 'recharts';
-import { useLoading, useStore } from '../../../hooks';
+import { useStore } from '../../../hooks';
 import { 
   FailedRequest, 
   findOneOrFindLast, 
-  http, 
-  isDoctorPage, 
   LoaderChart, 
   NotEnoughtData, 
   prepareDate, 
   strTimeToNum, 
   validateHHMMstr, 
   WithAverageInt, 
-  withoutDuplicates 
 } from '../../common';
 import './TimeSpentInBedAfterWakingUp.css';
 
@@ -28,55 +25,24 @@ const layout = {
  * @returns 
  */
 const TimeSpentInBedAfterWakingUp: React.FC = () => {
-  /** проснулся */
-  const [
-    awakesTimeData,
-    setAwakesTimeData
-  ] = React.useState<answer[]>([]);
 
-  /** встал с кровати */
-  const [
-    goOutOfBedData,
-    setGoOutOfBedData
-  ] = React.useState<answer[]>([]);
-
-  const { currentUser, selectedUser, startDate, endDate } = useStore()
-
-  const { isFailed, isLoad, onStart, onFailed, onSussess } = useLoading();
-
-
-  const fetchData = (userId: string) => {
-    onStart();
-    http.post(userId, 'question_11', startDate, endDate)
-      .then(withoutDuplicates)
-      .then(setAwakesTimeData)
-      .catch(onFailed)
-    http.post(userId, 'question_12', startDate, endDate)
-      .then(withoutDuplicates)
-      .then(setGoOutOfBedData)
-      .then(onSussess)
-      .catch(onFailed)
-  }
-
-  React.useEffect(() => {
-    if (isDoctorPage()) {
-      if (selectedUser) fetchData(selectedUser)
-    } else {
-      if (currentUser) fetchData(currentUser)
-    }
-    // eslint-disable-next-line
-  }, [startDate, endDate, currentUser, selectedUser])
+  const { 
+    question_11_data, 
+    question_11_load, 
+    question_12_data, 
+    question_12_load 
+  } = useStore()
 
   let data: answer[] = [];
   // тут считаем разницу между временем пробуждения 
   // и временем вставания с пастели, 
   // для каждого просыпания должен быть ответ вставания с постели 
-  awakesTimeData.forEach((awakesTimeAnswer) => {
+  question_11_data.forEach((awakesTimeAnswer) => {
     // в диапазоне ответов ищем тот ответ, который был сделан 
     // в тот же день 
     // (если есть дубликаты в один день, то берется только последнее значение по времени) 
     const goOutItemExists = findOneOrFindLast(
-      goOutOfBedData,
+      question_12_data,
       (goOut) => moment(goOut.cdate).isSame(moment(awakesTimeAnswer.cdate), 'day')
     )
     // если нашлось совпадение
@@ -111,6 +77,8 @@ const TimeSpentInBedAfterWakingUp: React.FC = () => {
 
   /** Недостаточно данных */
   const isNotEnought = !data.length;
+  const isLoad = question_12_load === 'LOADING' || question_11_load === 'LOADING';
+  const isFailed = question_12_load === 'FAILED' || question_11_load === 'FAILED';
   return (
     <div className='responsiveChart'>
       <h3>Время нахождения в постели после пробуждения</h3>

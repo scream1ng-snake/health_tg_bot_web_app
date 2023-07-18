@@ -1,7 +1,7 @@
 import React from 'react';
 import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, ResponsiveContainer, Cell } from 'recharts';
-import { useLoading, useStore } from '../../../hooks';
-import { FailedRequest, http, isDoctorPage, LoaderChart, NotEnoughtData, prepareDate, WithAverage, withoutDuplicates } from '../../common';
+import { useStore } from '../../../hooks';
+import { FailedRequest, LoaderChart, NotEnoughtData, prepareDate, WithAverage } from '../../common';
 import './TheNumberOfNightAwakenings.css';
 
 const layout = {
@@ -15,34 +15,17 @@ const layout = {
  * @returns 
  */
 const TheNumberOfNightAwakenings: React.FC = () => {
-  const [data, setData] = React.useState<answer[]>([]);
 
-  const { currentUser, selectedUser, startDate, endDate } = useStore();
+  const { question_9_data, question_9_load } = useStore();
 
-  const { isFailed, isLoad, onStart, onFailed, onSussess } = useLoading();
+  let data = WithAverage(prepareDate(question_9_data))
 
   /** Недостаточно данных */
   const isNotEnought = !data.length;
+  const isLoad = question_9_load === 'LOADING';
+  const isFailed = question_9_load === 'FAILED';
 
-  const fetchData = (userId: string) => {
-    onStart();
-    http.post(userId, 'question_9', startDate, endDate)
-      .then(withoutDuplicates)
-      .then(prepareDate)
-      .then(WithAverage)
-      .then(setData)
-      .then(onSussess)
-      .catch(onFailed)
-  }
 
-  React.useEffect(() => {
-    if (isDoctorPage()) {
-      if (selectedUser) fetchData(selectedUser)
-    } else {
-      if (currentUser) fetchData(currentUser)
-    }
-    // eslint-disable-next-line
-  }, [startDate, endDate, currentUser, selectedUser])
   return (
     <div className='responsiveChart'>
       <h3>Количество ночных пробуждений</h3>

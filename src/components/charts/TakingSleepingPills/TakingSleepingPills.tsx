@@ -2,8 +2,8 @@ import React from 'react';
 import './TakingSleepingPills.css';
 import { PieChart, Pie, Legend, Tooltip, Cell, ResponsiveContainer } from "recharts";
 import { renderCustomizedLabel } from '../helpers';
-import { useLoading, useStore } from '../../../hooks';
-import { FailedRequest, http, isDoctorPage, LoaderChart, NotEnoughtData, prepareDate } from '../../common';
+import { useStore } from '../../../hooks';
+import { FailedRequest, LoaderChart, NotEnoughtData, prepareDate } from '../../common';
 
 const layout = {
   width: '80%',
@@ -15,32 +15,16 @@ const layout = {
  * @returns 
  */
 const TakingSleepingPills: React.FC = () => {
-  const [data, setData] = React.useState<answer[]>([]);
+  const { question_5_data, question_5_load } = useStore();
 
-  const { currentUser, selectedUser, startDate, endDate } = useStore()
-
-  const { isFailed, isLoad, onStart, onFailed, onSussess } = useLoading();
+  const data = prepareDate(question_5_data);
 
   /** Недостаточно данных */
   const isNotEnought = !data.length;
 
-  const fetchData = (userId: string) => {
-    onStart();
-    http.post(userId, 'question_5', startDate, endDate)
-      .then(prepareDate)
-      .then(setData)
-      .then(onSussess)
-      .catch(onFailed)
-  }
+  const isLoad = question_5_load === 'LOADING';
+  const isFailed = question_5_load === 'FAILED';
 
-  React.useEffect(() => {
-    if (isDoctorPage()) {
-      if (selectedUser) fetchData(selectedUser)
-    } else {
-      if (currentUser) fetchData(currentUser)
-    }
-    // eslint-disable-next-line
-  }, [startDate, endDate, currentUser, selectedUser])
 
   const daysWithPills = data.reduce((acc, cur) =>
     cur.answer_text === 'true'

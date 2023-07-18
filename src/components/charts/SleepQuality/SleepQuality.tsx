@@ -10,8 +10,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { useLoading, useStore } from '../../../hooks';
-import { FailedRequest, http, isDoctorPage, LoaderChart, NotEnoughtData, prepareDate, withoutDuplicates } from '../../common';
+import { useStore } from '../../../hooks';
+import { FailedRequest, LoaderChart, NotEnoughtData, prepareDate } from '../../common';
 
 const layout = {
   width: '80%',
@@ -24,50 +24,22 @@ const layout = {
  * @returns 
  */
 const SleepQuality: React.FC = () => {
-  const [
-    answers,
-    setAnswers
-  ] = React.useState<answer[]>([]); 
-
-  
-  const { currentUser, selectedUser, startDate, endDate } = useStore()
-
-  const { isFailed, isLoad, onStart, onFailed, onSussess } = useLoading(); 
-
-  
-  const fetchData = (userId: string) => {
-    onStart();
-    // грузим данные для высчета времени нахождения пастели
-    http.post(userId, 'question_14', startDate, endDate)
-      .then(withoutDuplicates)
-      .then(prepareDate)
-      .then(setAnswers)
-      .then(onSussess)
-      .catch(onFailed)
-  }
-
-  React.useEffect(() => {
-    if (isDoctorPage()) {
-      if (selectedUser) fetchData(selectedUser)
-    } else {
-      if (currentUser) fetchData(currentUser)
-    }
-    // eslint-disable-next-line
-  }, [startDate, endDate, currentUser, selectedUser])
-
+  const { question_14_data, question_14_load } = useStore()
 
   let data: {
     date: string,
     sleepQuantiti: string,
-  }[] = answers.map(({ cdate, answer_text }) => ({ date: cdate, sleepQuantiti: answer_text }));
+  }[] = prepareDate(question_14_data).map(({ cdate, answer_text }) => ({ date: cdate, sleepQuantiti: answer_text }));
 
   
   /** Недостаточно данных */
   const isNotEnought = !data.length;
+  const isLoad = question_14_load === 'LOADING';
+  const isFailed = question_14_load === 'FAILED';
   
   return (
     <div className='responsiveChart'>
-      <h3>оценка качества сна</h3>
+      <h3>Оценка качества сна</h3>
       {isFailed
         ? <FailedRequest />
         : isLoad

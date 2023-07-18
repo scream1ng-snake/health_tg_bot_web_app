@@ -14,14 +14,11 @@ import {
 import { 
   FailedRequest, 
   findOneOrFindLast, 
-  http, 
-  isDoctorPage, 
   LoaderChart, 
   NotEnoughtData, 
   validateHHMMstr, 
-  withoutDuplicates, 
 } from '../../common';
-import { useLoading, useStore } from '../../../hooks';
+import { useStore } from '../../../hooks';
 import moment from 'moment';
 
 
@@ -38,68 +35,16 @@ const layout = {
  * @returns 
  */
 const DynamicsOfSleepDurationAndStayingInBed: React.FC = () => {
-  // это время нахождения в кровати
-  // когда пользователь лег в кровать
-  const [
-    goIntoBedData,
-    setGoIntoBedData
-  ] = React.useState<answer[]>([]);
-
-  // и когда встал с кровати
-  const [
-    goOutOfBedData,
-    setGoOutOfBedData
-  ] = React.useState<answer[]>([]);
-
-  // это время сна
-  // когда пользователь решил уснуть
-  const [
-    whenFellAsleep,
-    setWhenFellAsleep
-  ] = React.useState<answer[]>([]);
-
-  // и когда окончательно проснулся
-  const [
-    awakeningTimeData,
-    setAwakeningTimeData
-  ] = React.useState<answer[]>([]);
-
-  const { currentUser, selectedUser, startDate, endDate } = useStore()
-
-  const { isFailed, isLoad, onStart, onFailed, onSussess } = useLoading();
-
-
-  const fetchData = (userId: string) => {
-    onStart();
-    // грузим данные для высчета времени нахождения пастели
-    http.post(userId, 'question_6', startDate, endDate)
-      .then(withoutDuplicates)
-      .then(setGoIntoBedData)
-      .catch(onFailed)
-    http.post(userId, 'question_12', startDate, endDate)
-      .then(withoutDuplicates)
-      .then(setGoOutOfBedData)
-      .catch(onFailed)
-    // грузим данные для высчета времени сна
-    http.post(userId, 'question_7', startDate, endDate)
-      .then(withoutDuplicates)
-      .then(setWhenFellAsleep)
-      .catch(onFailed)
-    http.post(userId, 'question_11', startDate, endDate)
-      .then(withoutDuplicates)
-      .then(setAwakeningTimeData)
-      .then(onSussess)
-      .catch(onFailed)
-  }
-
-  React.useEffect(() => {
-    if (isDoctorPage()) {
-      if (selectedUser) fetchData(selectedUser)
-    } else {
-      if (currentUser) fetchData(currentUser)
-    }
-    // eslint-disable-next-line
-  }, [startDate, endDate, currentUser, selectedUser])
+  const { 
+    question_6_data, 
+    question_6_load, 
+    question_12_data, 
+    question_12_load, 
+    question_7_data, 
+    question_7_load, 
+    question_11_data, 
+    question_11_load 
+  } = useStore()
 
   let data: {
     date: string,
@@ -110,12 +55,12 @@ const DynamicsOfSleepDurationAndStayingInBed: React.FC = () => {
   // тут считаем разницу между временем отхода ко сну 
   // и временем вставания с пастели, 
   // для каждого отхода ко сну должен быть ответ вставания с постели 
-  goIntoBedData.forEach((goIntoItem) => {
+  question_6_data.forEach((goIntoItem) => {
     // в диапазоне ответов ищем тот ответ, который был сделан 
     // в тот же день 
     // (если есть дубликаты в один день, то берется только последнее значение по времени) 
     const goOutItemExists = findOneOrFindLast(
-      goOutOfBedData,
+      question_12_data,
       (goOut) => moment(goOut.cdate).isSame(moment(goIntoItem.cdate), 'day')
     )
     // если нашлось совпадение
@@ -152,12 +97,12 @@ const DynamicsOfSleepDurationAndStayingInBed: React.FC = () => {
   // тут считаем разницу между временем засыпания 
   // и временем пробуждения, 
   // для каждого засыпания должен быть ответ со временем пробуждения 
-  whenFellAsleep.forEach((whenFellAsleepItem) => {
+  question_7_data.forEach((whenFellAsleepItem) => {
     // в диапазоне ответов ищем тот ответ, который был сделан 
     // в тот же день 
     // (если есть дубликаты в один день, то берется только последнее значение по времени) 
     const awakeningTimeExists = findOneOrFindLast(
-      awakeningTimeData,
+      question_11_data,
       (awakeningTime) => moment(awakeningTime.cdate).isSame(moment(whenFellAsleepItem.cdate), 'day')
     )
     // если нашлось совпадение
@@ -194,6 +139,16 @@ const DynamicsOfSleepDurationAndStayingInBed: React.FC = () => {
 
   /** Недостаточно данных */
   const isNotEnought = !data.length;
+  const isLoad = question_12_load === 'LOADING' 
+    || question_11_load === 'LOADING'
+    || question_7_load === 'LOADING'
+    || question_6_load === 'LOADING'
+
+  const isFailed = question_12_load === 'FAILED' 
+    || question_11_load === 'FAILED'
+    || question_7_load === 'FAILED'
+    || question_6_load === 'FAILED'
+    
   
 
   return (

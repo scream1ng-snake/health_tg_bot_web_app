@@ -2,9 +2,8 @@ import React from 'react';
 import './AlcoholIntake.css';
 import { PieChart, Pie, Legend, Tooltip, Cell, ResponsiveContainer } from "recharts";
 import { renderCustomizedLabel } from '../helpers';
-import { useLoading, useStore } from '../../../hooks';
-import { FailedRequest, http, isDoctorPage, LoaderChart, NotEnoughtData, prepareDate } from '../../common';
-//import { http } from '../../common';
+import { useStore } from '../../../hooks';
+import { FailedRequest, LoaderChart, NotEnoughtData, prepareDate } from '../../common';
 
 const layout = {
   width: '80%',
@@ -16,32 +15,15 @@ const layout = {
  * @returns 
  */
 const AlcoholIntake: React.FC = () => {
-  const [data, setData] = React.useState<answer[]>([]);
+  const { question_4_data, question_4_load } = useStore()
 
-  const { currentUser, selectedUser, startDate, endDate } = useStore()
+  const isLoad = question_4_load === 'LOADING';
+  const isFailed = question_4_load === 'FAILED';
 
-  const { isFailed, isLoad, onStart, onFailed, onSussess } = useLoading();
+  const data = prepareDate(question_4_data)
 
   /** Недостаточно данных */
   const isNotEnought = !data.length;
-
-  const fetchData = (userId: string) => {
-    onStart();
-    http.post(userId, 'question_4', startDate, endDate)
-      .then(prepareDate)
-      .then(setData)
-      .then(onSussess)
-      .catch(onFailed)
-  }
-
-  React.useEffect(() => {
-    if (isDoctorPage()) {
-      if (selectedUser) fetchData(selectedUser)
-    } else {
-      if (currentUser) fetchData(currentUser)
-    }
-    // eslint-disable-next-line
-  }, [startDate, endDate, currentUser, selectedUser])
 
   let daysWithAlco = 0;
   for(const item of data) {
