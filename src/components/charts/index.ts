@@ -38,13 +38,15 @@ const Charts = {
   TheTotalDurationOfNightAwakenings: TheTotalDurationOfNightAwakenings, // done
 
   // question_11 & question_12 посчитать время между ними
-  TimeSpentInBedAfterWakingUp: TimeSpentInBedAfterWakingUp, 
+  TimeSpentInBedAfterWakingUp: TimeSpentInBedAfterWakingUp, // done
 
-  // question_6 question_12 время между ними
-  DynamicsOfSleepDurationAndStayingInBed: DynamicsOfSleepDurationAndStayingInBed,
+  // question_6 question_12 это время нахождения в кровати
+  // question_7 question_11 это время сна
+  // посчитать время сна и нахождения в постели и показать на графике
+  DynamicsOfSleepDurationAndStayingInBed: DynamicsOfSleepDurationAndStayingInBed, // done
 
   // question_14 - Оцените качество своего сна сегодня ночью? (от 1 до 5) ^(1|2|3|4|5)$
-  SleepQuality: SleepQuality, 
+  SleepQuality: SleepQuality, // done
 
   //
   SleepEfficiency: SleepEfficiency,

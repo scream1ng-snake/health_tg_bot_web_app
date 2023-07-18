@@ -10,26 +10,13 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { useLoading, useStore } from '../../../hooks';
+import { FailedRequest, http, isDoctorPage, LoaderChart, NotEnoughtData, prepareDate, withoutDuplicates } from '../../common';
 
-
-const data = [
-  {
-    date: '05.05.2023',
-    sleepQuantiti: 2,
-  },
-  {
-    date: '06.05.2023',
-    sleepQuantiti: 2,
-  },
-  {
-    date: '07.05.2023',
-    sleepQuantiti: 4,
-  },
-  {
-    date: '08.05.2023',
-    sleepQuantiti: 5,
-  },
-];
+const layout = {
+  width: '80%',
+  height: 200
+}
 
 /**
  * оценка качества сна 
@@ -37,13 +24,58 @@ const data = [
  * @returns 
  */
 const SleepQuality: React.FC = () => {
-  const layout = {
-    width: '80%',
-    height: 200
+  const [
+    answers,
+    setAnswers
+  ] = React.useState<answer[]>([]); 
+
+  
+  const { currentUser, selectedUser, startDate, endDate } = useStore()
+
+  const { isFailed, isLoad, onStart, onFailed, onSussess } = useLoading(); 
+
+  
+  const fetchData = (userId: string) => {
+    onStart();
+    // грузим данные для высчета времени нахождения пастели
+    http.post(userId, 'question_14', startDate, endDate)
+      .then(withoutDuplicates)
+      .then(prepareDate)
+      .then(setAnswers)
+      .then(onSussess)
+      .catch(onFailed)
   }
+
+  React.useEffect(() => {
+    if (isDoctorPage()) {
+      if (selectedUser) fetchData(selectedUser)
+    } else {
+      if (currentUser) fetchData(currentUser)
+    }
+    // eslint-disable-next-line
+  }, [startDate, endDate, currentUser, selectedUser])
+
+
+  let data: {
+    date: string,
+    sleepQuantiti: string,
+  }[] = answers.map(({ cdate, answer_text }) => ({ date: cdate, sleepQuantiti: answer_text }));
+
+  
+  /** Недостаточно данных */
+  const isNotEnought = !data.length;
+  
   return (
     <div className='responsiveChart'>
       <h3>оценка качества сна</h3>
+      {isFailed
+        ? <FailedRequest />
+        : isLoad
+          ? <LoaderChart isLoad={isLoad} />
+          : isNotEnought
+            ? <NotEnoughtData />
+            : null
+      }
       <ResponsiveContainer {...layout}>
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
