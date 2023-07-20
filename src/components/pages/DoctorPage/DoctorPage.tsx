@@ -109,15 +109,11 @@ export const DoctorPage: React.FC = () => {
     endDate,
     setEndDate,
     users,
-    setUsers,
     selectedUser,
     setSelectedUser
   } = useStore()
 
-  React.useEffect(() => {
-    setUsers([{ name: 'me', id: '5780004797' }, { name: 'some guy', id: '1884374502' }]) // todo
-    // eslint-disable-next-line
-  }, [])
+  
   return (
     <div>
       <h3 className='hint'>

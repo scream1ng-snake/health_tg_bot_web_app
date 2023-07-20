@@ -104,3 +104,12 @@ export const strTimeToNum = (array: answer[]) =>
     cdate,
     answer_text: Number(answer_text.replace(':', '.'))
   }))
+
+
+/** get now yyyy-mm-dd */
+export const getNow = () => moment(new Date())
+  .format('YYYY-MM-DD')
+
+/** get yyyy-mm-dd one week ago */
+export const getOneWeekAgo = () => moment(new Date(Date.now() - (24 * 60 * 60 * 1000) * 7))
+  .format('YYYY-MM-DD')

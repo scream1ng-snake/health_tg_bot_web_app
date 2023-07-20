@@ -14,3 +14,9 @@ const LoadStates = {
 } as const;
 
 type LoadStatesType = typeof LoadStates[keyof typeof LoadStates];
+
+type user = { 
+  telegram_id: string, 
+  name: string, 
+  user_phone: string 
+}

@@ -1,17 +1,11 @@
-import moment from 'moment';
 import React from 'react';
-import { http, isDoctorPage, withoutDuplicates } from '../components/common';
+import { getNow, getOneWeekAgo, http, isDoctorPage, withoutDuplicates } from '../components/common';
 import useTelegram from '../hooks/useTelegram';
 
-type user = { id: string, name: string } // todo
-
-const getNow = () => moment(new Date()) // todo utils
-  .format('YYYY-MM-DD')
-
-const getOneWeekAgo = () => moment(new Date(Date.now() - (24 * 60 * 60 * 1000) * 7))
-  .format('YYYY-MM-DD')
 
 export const StoreContext = React.createContext({
+  isDoctor: false,
+  setIsDoctor: (bool: boolean) => { },
   /** текущий пользователь телеги */
   currentUser: null as Optional<string>,
   users: [] as user[],
@@ -263,6 +257,26 @@ export const StoreProvider = ({ children }: {
       })
   }
 
+  
+  const [isDoctor, setIsDoctor] = React.useState(false)
+
+  React.useEffect(() => {
+    http.getUsers(currentUser ?? '').then((users) => {
+      if(users.length) {
+        setIsDoctor(true)
+        setUsers(users)
+      }
+    })
+    
+    // eslint-disable-next-line
+  }, [])
+
+  React.useEffect(() => {
+    isDoctor
+      ? window.location.hash = 'doctor'
+      : window.location.hash = 'patient'
+  }, [isDoctor])
+
   React.useEffect(() => {
     if (isDoctorPage()) {
       if (selectedUser) fetchData(selectedUser)
@@ -313,6 +327,8 @@ export const StoreProvider = ({ children }: {
         question_12_load,
         question_13_load,
         question_14_load,
+        isDoctor, 
+        setIsDoctor
       }}>
       {children}
     </StoreContext.Provider>

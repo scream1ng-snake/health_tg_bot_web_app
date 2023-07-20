@@ -48,7 +48,7 @@ export const DateInput: React.FC<{
 }
 
 export const Select: React.FC<{
-  data: Array<{ name: string, id: string }>,
+  data: Array<user>,
   name: string,
   label: string,
   placeholder: string,
@@ -71,7 +71,7 @@ export const Select: React.FC<{
       >
         <option value="">{placeholder}</option>
         {data.map((item) => 
-          <option value={item.id} key={item.id}>{item.name}</option>
+          <option value={item.telegram_id} key={item.telegram_id}>{item.name}</option>
         )}
       </select>
     </div>

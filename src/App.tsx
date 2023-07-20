@@ -1,25 +1,16 @@
 import React from 'react';
 import './App.css';
 import { DoctorPage, PatientPage } from './components/pages';
+import { useStore } from './hooks';
 import useTelegram from './hooks/useTelegram';
 import { StoreProvider } from './store/StoreProvider';
 
 function App() {
-  const isDoctor = true; // todo убрать, тут нет никаких докторов UPD: теперб есть 
-  React.useEffect(() => {
-    isDoctor
-      ? window.location.hash = 'doctor'
-      : window.location.hash = 'patient'
-  }, [isDoctor])
-
   return (
     <div className="App">
       <IsTelegramApp>
         <StoreProvider>
-          {isDoctor
-            ? <DoctorPage />
-            : <PatientPage />
-          }
+          <IsDoctorPage />
         </StoreProvider>
       </IsTelegramApp>
     </div>
@@ -27,6 +18,15 @@ function App() {
 }
 
 export default App;
+
+const IsDoctorPage: React.FC = () => {
+  const { isDoctor } = useStore();
+  if(isDoctor) {
+    return <DoctorPage />
+  } else {
+    return <PatientPage />
+  }
+}
 
 const IsTelegramApp: React.FC<{
   children: React.ReactNode
