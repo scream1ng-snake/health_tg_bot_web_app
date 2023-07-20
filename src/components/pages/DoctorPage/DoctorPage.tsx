@@ -113,12 +113,13 @@ export const DoctorPage: React.FC = () => {
     setSelectedUser
   } = useStore()
 
+  const findedUser = users.find((userr) => userr.telegram_id === selectedUser)
   
   return (
     <div>
       <h3 className='hint'>
-        {selectedUser?.length
-          ? `Результаты пользователя: '${selectedUser}'`
+        {findedUser
+          ? `Результаты пользователя: '${findedUser.name}'`
           : 'Выберите пользователя'
         }
       </h3>
